@@ -1,0 +1,7 @@
+node_modules/
+.DS_Store
+*.log
+# Never commit call transcripts or personal settings
+*.ndjson
+config.json
+state.json

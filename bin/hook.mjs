@@ -1,0 +1,54 @@
+#!/usr/bin/env node
+// Claude Code UserPromptSubmit hook. Does nothing unless live mode is on.
+//
+// While live mode is on (node bin/live.mjs on <skill>):
+//   - a short message (any character, or a few words like "conflict") becomes a request for /<skill>:
+//     the hook reads the transcript and hands it to Claude, so Claude can answer straight away;
+//   - "off", "end", "stop", "live off" (with or without a slash) switch live mode off;
+//   - longer messages only get a one-line reminder that live mode is on.
+import fs from 'node:fs';
+import path from 'node:path';
+import { execFileSync } from 'node:child_process';
+import { BIN, HOME, config, q, readState } from './lib.mjs';
+
+let prompt = '';
+try { prompt = (JSON.parse(fs.readFileSync(0, 'utf8')).prompt || '').trim(); } catch {}
+
+const state = readState();
+if (!state) process.exit(0);
+
+const skill = state.skill;
+const say = (text) => {
+  process.stdout.write(JSON.stringify({
+    hookSpecificOutput: { hookEventName: 'UserPromptSubmit', additionalContext: text },
+  }));
+  process.exit(0);
+};
+
+const p = prompt.toLowerCase().replace(/^\//, '');
+if (/^((live|call)\s*(end|stop|off)|(end|stop)\s*(live|call)|end|stop|off)\W*$/.test(p)) {
+  say(`LIVE MODE: the user wants to stop. Run \`node ${q(path.join(BIN, 'live.mjs'))} off\`, ` +
+    `then follow any wrap-up steps in the /${skill} skill.`);
+}
+if (prompt.startsWith('/') && !p.startsWith(skill) && !p.startsWith('live')) process.exit(0);
+
+if (prompt.length > config().shortMessageChars && !p.startsWith(skill)) {
+  say(`LIVE MODE is on for /${skill} (a call is in progress). If this message asks for help with the call, ` +
+    `handle it as a /${skill} request; otherwise handle it normally.`);
+}
+
+let transcript;
+try {
+  transcript = execFileSync(process.execPath, [path.join(BIN, 'transcript.mjs'), '300'], { encoding: 'utf8', timeout: 8000 });
+} catch (e) {
+  transcript = e.stdout || `[could not read the transcript: ${String(e.message).split('\n')[0]}]`;
+}
+
+say(
+  `LIVE MODE: treat this message as a request for the /${skill} skill (use the message as a hint if it means ` +
+  `anything, otherwise ignore it). The transcript below is fresh, so don't read it again: respond to it now ` +
+  `following /${skill}, or say "Listening…" in one line if there's nothing yet. Then keep listening as ` +
+  `${q(path.join(HOME, 'docs', 'listening.md'))} describes: start \`node ${q(path.join(BIN, 'transcript.mjs'))} ` +
+  `--wait 120 --after <cursor>\` with run_in_background (the cursor is the last line below) and END YOUR TURN ` +
+  `with your answer as the last thing you write.\n\n` + transcript,
+);
