@@ -28,7 +28,7 @@ description: During a live call, <WHAT THIS SKILL DOES, IN ONE SENTENCE>. Use wh
 
 ## Start (`/{{SKILL_NAME}}`)
 
-1. Run `node "{{LCA}}/bin/live.mjs" on {{SKILL_NAME}}`. From now on, any short message the user types (even a single character) is a request for help, and the transcript arrives with it.
+1. Run `node "{{LCA}}/bin/live.mjs" on {{SKILL_NAME}}`. If the user named other skills too (for example `/{{SKILL_NAME}} call-research`), switch them all on in the order they gave. From now on, any short message the user types (even a single character) is a request for help, and the transcript arrives with it.
 2. <OPTIONAL SETUP, e.g. "Read every file in the notes folder now, in parallel." Delete this step if there's nothing.>
 3. Follow the listening loop in `{{LCA}}/docs/listening.md`, starting from step 1.
    <OPTIONAL: to suggest things without being asked (like /call-jokes), add: "Wait with `--min 45` added, and keep listening until the user says off or three waits in a row return nothing new.">

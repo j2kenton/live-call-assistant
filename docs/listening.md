@@ -20,6 +20,16 @@ How a skill keeps listening to a call and responds as things are said. Every ski
    - If there's nothing worth saying, start the next wait and end the turn with a short status like "Listening…".
 4. **Repeat until** a wait returns "nothing new", the skill's own time limit is reached, the output says the call changed or ended, or the user says "off".
 
+## Several skills at once
+
+Live mode can run several skills together, for example `node "<LCA>/bin/live.mjs" on call-notes call-research`. The order is the priority order.
+
+- **Listen once.** Use a single listening loop for all of them. If any active skill answers questions (like call-notes or call-research), wait without `--min`, so questions get answered quickly, even if another skill (like call-jokes) normally waits longer.
+- **Answer from the first skill that can.** For each thing that needs a response, try the skills in order: for example, answer from the notes if they cover it, and only search the web if they don't. Say which source an answer came from.
+- **One combined response.** Put everything in a single reply, still at most about six lines.
+- **Playful skills come last.** Only suggest a joke when nothing else needs answering.
+- **Stopping:** "off" (or any active skill's name followed by "off") switches them all off.
+
 ## Output of `transcript.mjs`
 
 ```

@@ -72,7 +72,8 @@ await test('hook: silent when live mode is off', () => {
 await test('hook: short message gets the transcript, long one a reminder', () => {
   run('live.mjs', ['on', 'call-notes']);
   const short = JSON.parse(hook('x')).hookSpecificOutput.additionalContext;
-  assert.match(short, /request for the \/call-notes skill/);
+  assert.match(short, /request for \/call-notes \(/);
+  assert.doesNotMatch(short, /Several skills/);
   assert.match(short, /had to give feedback/);
   const long = JSON.parse(hook('a'.repeat(100))).hookSpecificOutput.additionalContext;
   assert.match(long, /LIVE MODE is on/);
@@ -85,6 +86,17 @@ await test('hook: "off" and friends switch it off', () => {
   }
   run('live.mjs', ['off']);
   assert.equal(hook('x'), '');
+});
+
+await test('several skills at once: priority order, combined request, stop with any name', () => {
+  assert.match(run('live.mjs', ['on', 'call-notes', '/call-research', 'call-notes']), /ON for \/call-notes, \/call-research \(/);
+  assert.match(run('live.mjs', ['status']), /\/call-notes, \/call-research since/);
+  const ctx = JSON.parse(hook('x')).hookSpecificOutput.additionalContext;
+  assert.match(ctx, /request for \/call-notes, \/call-research/);
+  assert.match(ctx, /Several skills are active, in priority order/);
+  assert.match(JSON.parse(hook('/call-research off')).hookSpecificOutput.additionalContext, /wants to stop/);
+  assert.match(JSON.parse(hook('a'.repeat(100))).hookSpecificOutput.additionalContext, /LIVE MODE is on for \/call-notes, \/call-research/);
+  run('live.mjs', ['off']);
 });
 
 await test('installer: adds the hook alongside existing ones, and uninstalls cleanly', () => {

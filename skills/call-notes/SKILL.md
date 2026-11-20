@@ -12,7 +12,7 @@ The user is on a call right now and wants quick answers from their own notes whi
 
 ## Start (`/call-notes`)
 
-1. Run `node "{{LCA}}/bin/live.mjs" on call-notes`. From now on, any short message the user types (even a single character) is a request for help, and the transcript arrives with it.
+1. Run `node "{{LCA}}/bin/live.mjs" on call-notes`. If the user named other skills too (for example `/call-notes call-research`), switch them all on in the order they gave: `node "{{LCA}}/bin/live.mjs" on call-notes call-research`. From now on, any short message the user types (even a single character) is a request for help, and the transcript arrives with it.
 2. If you haven't read the notes in this session, read every text and Markdown file in the notes folder now, in parallel.
 3. Follow the listening loop in `{{LCA}}/docs/listening.md`, starting from step 1.
 

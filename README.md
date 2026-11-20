@@ -4,12 +4,15 @@ Let [Claude Code](https://claude.com/claude-code) listen along to your calls and
 
 You're on a call and someone asks you something you can't quite remember. Instead of typing out the question while they wait, you type a single key. Claude reads the last few minutes of the conversation, works out what you were just asked, and answers from your own notes in a line or two. It keeps listening for a few minutes in case the rest of the question is still on its way.
 
-It works with any kind of call, and each use is a short **skill** on top of the same listening engine. Two come included:
+It works with any kind of call, and each use is a short **skill** on top of the same listening engine. Three come included, each drawing on a different source:
 
-| Skill | What it does |
-| :---- | :----------- |
-| `/call-notes` | Answers questions that come up on the call from a folder of your own notes. Never makes things up: if it isn't in your notes, it says so. |
-| `/call-jokes` | Listens to a casual call (family, friends) and now and then suggests a funny line you could say. |
+| Skill | Draws on | What it does |
+| :---- | :------- | :----------- |
+| `/call-notes` | Your own notes | Answers questions that come up on the call from a folder of your notes: meeting prep, sales notes, interview practice with your prepared stories. Never makes things up: if it isn't in your notes, it says so. |
+| `/call-research` | The web | Looks up things that come up and nobody has written down (a company someone mentions, a term you don't know, a claim to check) and answers in a line, with its source. |
+| `/call-jokes` | Its imagination | Listens to a casual call (family, friends) and now and then suggests a funny line you could say. |
+
+**Mix and match:** run `/call-notes call-research` and it answers from your notes first, searching the web only when your notes don't cover something. See [Combine skills](#combine-skills).
 
 Writing your own takes a few minutes: see [Make your own skill](#make-your-own-skill).
 
@@ -51,11 +54,11 @@ node bin/install.mjs --notes "/path/to/your/notes"
 The installer:
 
 - adds one hook to your Claude Code settings (`~/.claude/settings.json`), after backing them up, and
-- installs the two example skills into `~/.claude/skills/`, pointing at this folder.
+- installs the example skills into `~/.claude/skills/`, pointing at this folder.
 
 Then restart Claude Code (or open `/hooks` once) so it picks up the hook.
 
-Options: `--no-hook`, `--no-skills`, `--force` (overwrite skills you've already installed), and `--uninstall` (removes the hook and the example skills again).
+Options: `--no-hook`, `--no-skills`, `--force` (overwrite skills you've already installed, for example after updating), and `--uninstall` (removes the hook and the example skills again).
 
 <details>
 <summary>Prefer to add the hook by hand?</summary>
@@ -84,6 +87,18 @@ The hook does nothing at all unless live mode is on.
 5. When the call's over, type `off`.
 
 Live mode switches itself off after four hours, in case you forget.
+
+### Combine skills
+
+Name more skills after the first one, in priority order:
+
+```text
+/call-notes call-research
+```
+
+Claude listens once for all of them, tries them in order (your notes first, then the web), says where each answer came from, and puts everything in one short reply. Playful skills like `/call-jokes` only chime in when nothing else needs answering, so put them last. Typing `off` switches them all off.
+
+Notes plus research is the most useful mix for work calls. `/call-research` searches take a few extra seconds, so it only searches when your notes don't have the answer.
 
 ### Tips
 
@@ -136,13 +151,13 @@ Every skill does three things:
 2. **Listen:** follow the loop in [docs/listening.md](docs/listening.md). It explains how to answer, keep listening in the background, and cope with sentences that arrive in pieces. Your skill doesn't need to repeat any of it.
 3. **Respond:** this is the part that's yours. Say what to listen for in the conversation and how to answer.
 
-The two example skills, [call-notes](skills/call-notes/SKILL.md) and [call-jokes](skills/call-jokes/SKILL.md), are short, working skills to copy from. In the repo they contain `{{LCA}}` and `{{NOTES_DIR}}` placeholders, which the installer fills in. If you copy one by hand, replace `{{LCA}}` with the full path to this folder (forward slashes work on Windows too).
+The example skills, [call-notes](skills/call-notes/SKILL.md), [call-research](skills/call-research/SKILL.md) and [call-jokes](skills/call-jokes/SKILL.md), are short, working skills to copy from. In the repo they contain `{{LCA}}` and `{{NOTES_DIR}}` placeholders, which the installer fills in. If you copy one by hand, replace `{{LCA}}` with the full path to this folder (forward slashes work on Windows too).
 
 ## Commands
 
 | Command | What it does |
 | :------ | :----------- |
-| `node bin/live.mjs on <skill>` | Switch live mode on for a skill. |
+| `node bin/live.mjs on <skill> [more skills]` | Switch live mode on for one or more skills, in priority order. |
 | `node bin/live.mjs off` | Switch it off. |
 | `node bin/live.mjs status` | Show whether it's on. |
 | `node bin/live.mjs check` | Show the last minute of the call's transcript. |
