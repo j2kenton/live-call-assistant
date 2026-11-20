@@ -13,7 +13,7 @@ It works with any kind of call, and each use is a short **skill** on top of the 
 
 Writing your own takes a few minutes: see [Make your own skill](#make-your-own-skill).
 
-### Example: `/call-jokes` on a test call
+## Example: `/call-jokes` on a test call
 
 What was said on the call:
 
