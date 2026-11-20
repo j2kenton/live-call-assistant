@@ -13,6 +13,16 @@ It works with any kind of call, and each use is a short **skill** on top of the 
 
 Writing your own takes a few minutes: see [Make your own skill](#make-your-own-skill).
 
+### Example: `/call-jokes` on a test call
+
+What was said on the call:
+
+> **You:** It's so annoying that all the chicken shops are only on your side of the road, and there are none on my side of the road. I always have to cross every time.
+
+What `/call-jokes` suggested, unprompted, about 45 seconds later:
+
+> 💬 "So now *I'm* the one crossing the road to get to the chicken. The chickens must be loving this."
+
 ## How it works
 
 [Wispr Flow](https://wisprflow.ai/) transcribes your calls and writes the transcript to a file on your computer *while the call is still going*, a few seconds behind speech, with your microphone and the other side labelled separately. Live Call Assistant reads that file:
