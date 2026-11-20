@@ -40,6 +40,7 @@ Everything stays on your computer apart from what Claude Code itself sends to Cl
 
 - **[Claude Code](https://claude.com/claude-code)**, running on the same computer as the call: in a terminal, in VS Code, or in the Code tab of the Claude desktop app. (Claude on the web can't read files on your computer.)
 - **[Wispr Flow](https://wisprflow.ai/)** with meeting transcription, recording the call.
+- For `/call-research`: web search turned on in Claude Code (it's on by default for most accounts).
 - **[Node.js](https://nodejs.org/) 18 or later.**
 - **Windows** is tested. macOS should work but is untested: if your Wispr Flow meetings folder isn't found, set it in the [config](#configuration).
 
