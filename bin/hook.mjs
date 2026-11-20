@@ -26,7 +26,9 @@ const say = (text) => {
 };
 
 const p = prompt.toLowerCase().replace(/^\//, '');
-if (/^((live|call)\s*(end|stop|off)|(end|stop)\s*(live|call)|end|stop|off)\W*$/.test(p)) {
+const skillRe = skill.toLowerCase().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const stopRe = new RegExp(`^((live|call|${skillRe})\\s*(end|stop|off)|(end|stop)\\s*(live|call)|end|stop|off)\\W*$`);
+if (stopRe.test(p)) {
   say(`LIVE MODE: the user wants to stop. Run \`node ${q(path.join(BIN, 'live.mjs'))} off\`, ` +
     `then follow any wrap-up steps in the /${skill} skill.`);
 }

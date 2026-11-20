@@ -80,7 +80,7 @@ await test('hook: short message gets the transcript, long one a reminder', () =>
 });
 
 await test('hook: "off" and friends switch it off', () => {
-  for (const p of ['off', '/live off', 'end', 'stop live']) {
+  for (const p of ['off', '/live off', 'end', 'stop live', '/call-notes off', 'call-notes end']) {
     assert.match(JSON.parse(hook(p)).hookSpecificOutput.additionalContext, /wants to stop/, p);
   }
   run('live.mjs', ['off']);
