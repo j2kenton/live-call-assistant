@@ -54,7 +54,8 @@ function removeHook(s) {
   return JSON.stringify(s.hooks.UserPromptSubmit || []) !== before;
 }
 
-const exampleSkills = fs.readdirSync(path.join(HOME, 'skills'));
+// Folders starting with "_" (like the template) aren't skills to install.
+const exampleSkills = fs.readdirSync(path.join(HOME, 'skills')).filter((n) => !n.startsWith('_'));
 
 if (has('--uninstall')) {
   const s = readSettings();

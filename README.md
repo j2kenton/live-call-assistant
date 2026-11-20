@@ -108,13 +108,25 @@ Your settings and live-mode state live in `~/.live-call-assistant/`, outside thi
 
 ## Make your own skill
 
-A skill is a `SKILL.md` file in `~/.claude/skills/<name>/`. It needs to do three things:
+A skill is a `SKILL.md` file in `~/.claude/skills/<name>/`. Start from the template:
+
+```sh
+node bin/new-skill.mjs sales-helper
+```
+
+This creates `~/.claude/skills/sales-helper/SKILL.md` from [skills/_template/SKILL.md](skills/_template/SKILL.md), with the paths filled in. Open it, replace the parts in `<ANGLE BRACKETS>` (what to listen for, and how to respond), and run `/sales-helper` in Claude Code during a call. Add `--print` to print the skill instead of saving it.
+
+**Or let Claude Code write it for you.** Paste something like this into Claude Code, using the real path to this folder:
+
+> Create a live-call-assistant skill called sales-helper from the template in `/path/to/live-call-assistant/skills/_template/SKILL.md`. During sales calls it should listen for customer objections and suggest a short reply from my notes in `~/sales-notes`. Save it to `~/.claude/skills/sales-helper/SKILL.md`.
+
+Every skill does three things:
 
 1. **Start:** run `node "/path/to/live-call-assistant/bin/live.mjs" on <name>`.
-2. **Listen:** follow the loop in [docs/listening.md](docs/listening.md). It explains how to answer, keep listening in the background, and cope with sentences that arrive in pieces.
-3. **Respond:** this is the part that's yours. Say what to look for in the conversation and how to answer.
+2. **Listen:** follow the loop in [docs/listening.md](docs/listening.md). It explains how to answer, keep listening in the background, and cope with sentences that arrive in pieces. Your skill doesn't need to repeat any of it.
+3. **Respond:** this is the part that's yours. Say what to listen for in the conversation and how to answer.
 
-The two skills in [skills/](skills/) are short, working examples to copy from.
+The two example skills, [call-notes](skills/call-notes/SKILL.md) and [call-jokes](skills/call-jokes/SKILL.md), are short, working skills to copy from. In the repo they contain `{{LCA}}` and `{{NOTES_DIR}}` placeholders, which the installer fills in. If you copy one by hand, replace `{{LCA}}` with the full path to this folder (forward slashes work on Windows too).
 
 ## Commands
 
@@ -124,6 +136,7 @@ The two skills in [skills/](skills/) are short, working examples to copy from.
 | `node bin/live.mjs off` | Switch it off. |
 | `node bin/live.mjs status` | Show whether it's on. |
 | `node bin/live.mjs check` | Show the last minute of the call's transcript. |
+| `node bin/new-skill.mjs <name>` | Start a new skill from the template. |
 | `node bin/transcript.mjs [seconds]` | Print the last N seconds of the transcript (default 300). |
 | `node bin/transcript.mjs --wait 120 --after N` | Wait for new speech after line N. See [docs/listening.md](docs/listening.md). |
 

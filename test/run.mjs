@@ -109,5 +109,18 @@ await test('installer: adds the hook alongside existing ones, and uninstalls cle
   assert.ok(!fs.existsSync(path.join(env.CLAUDE_CONFIG_DIR, 'skills', 'call-notes')));
 });
 
+await test('installer skips the template; new-skill fills it in', () => {
+  run('install.mjs', ['--no-hook']);
+  assert.ok(!fs.existsSync(path.join(env.CLAUDE_CONFIG_DIR, 'skills', '_template')));
+  const out = run('new-skill.mjs', ['sales-helper']);
+  assert.match(out, /Created/);
+  const skill = fs.readFileSync(path.join(env.CLAUDE_CONFIG_DIR, 'skills', 'sales-helper', 'SKILL.md'), 'utf8');
+  assert.match(skill, /^name: sales-helper$/m);
+  assert.match(skill, /live\.mjs" on sales-helper/);
+  assert.doesNotMatch(skill, /\{\{/);
+  assert.throws(() => run('new-skill.mjs', ['sales-helper'])); // won't overwrite
+  assert.throws(() => run('new-skill.mjs', ['Bad Name']));
+});
+
 fs.rmSync(tmp, { recursive: true, force: true });
 console.log(`\n${passed} tests passed`);
