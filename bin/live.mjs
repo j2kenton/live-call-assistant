@@ -8,7 +8,7 @@
 //   node bin/live.mjs check        can the transcript be read right now?
 import { execFileSync } from 'node:child_process';
 import path from 'node:path';
-import { BIN, STATE_FILE, clearState, config, readState, writeState } from './lib.mjs';
+import { BIN, STATE_FILE, clearState, config, phoneListenerPid, readState, startPhoneListener, writeState } from './lib.mjs';
 
 const [cmd, ...rest] = process.argv.slice(2);
 
@@ -22,6 +22,10 @@ switch (cmd) {
     writeState({ skills, startedAt: new Date().toISOString() });
     console.log(`Live mode ON for ${skills.map((s) => `/${s}`).join(', ')} ` +
       `(switches off by itself after ${config().maxAgeHours} hours).`);
+    if (config().source === 'phone') {         // on a phone: make sure calls are being transcribed
+      const started = startPhoneListener();
+      if (started) console.log(started);
+    }
     break;
   }
   case 'off':
@@ -35,6 +39,10 @@ switch (cmd) {
     break;
   }
   case 'check':
+    if (config().source === 'phone' && !phoneListenerPid()) {
+      console.log('The phone listener isn\'t running, so calls aren\'t being transcribed. Running a skill starts it, ' +
+        `or start it in Termux: node ${path.join(BIN, 'phone.mjs')}`);
+    }
     try {
       process.stdout.write(execFileSync(process.execPath, [path.join(BIN, 'transcript.mjs'), '60'], { encoding: 'utf8' }));
     } catch (e) {

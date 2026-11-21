@@ -10,7 +10,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
-import { BIN, HOME, config, q, readState } from './lib.mjs';
+import { BIN, HOME, config, languageRequest, q, readState } from './lib.mjs';
 
 let prompt = '';
 try { prompt = (JSON.parse(fs.readFileSync(0, 'utf8')).prompt || '').trim(); } catch {}
@@ -35,6 +35,17 @@ const stopRe = new RegExp(`^((${ours})\\s*(end|stop|off)|(end|stop)\\s*(live|cal
 if (stopRe.test(p)) {
   say(`LIVE MODE: the user wants to stop. Run \`node ${q(path.join(BIN, 'live.mjs'))} off\`, ` +
     `then follow any wrap-up steps in ${names}.`);
+}
+// On a phone (docs/phone.md), "English", "he", "switch to Hebrew", … changes the language the call is
+// transcribed in, straight away.
+const lang = config().source === 'phone' && languageRequest(prompt);
+if (lang) {
+  let done;
+  try {
+    done = execFileSync(process.execPath, [path.join(BIN, 'phone.mjs'), 'language', lang], { encoding: 'utf8', timeout: 8000 }).trim();
+  } catch (e) { done = `[failed: ${String(e.message).split('\n')[0]}]`; }
+  say(`LIVE MODE: the user asked to transcribe the call in "${lang}". Done: ${done}. Confirm in one short line, ` +
+    `then keep listening as before.`);
 }
 const mentionsOurs = skills.some((s) => p.startsWith(s.toLowerCase())) || p.startsWith('live');
 if (prompt.startsWith('/') && !mentionsOurs) process.exit(0);

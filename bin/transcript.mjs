@@ -12,10 +12,11 @@
 //       between two calls are never missed.
 //
 // Wispr writes each meeting to <meetings>/<id>/live.ndjson while the call runs, a few seconds behind
-// speech. "mic" lines are you; "system" lines are everyone else on the call.
+// speech. "mic" lines are you; "system" lines are everyone else on the call. On a phone (source
+// 'phone'), bin/phone.mjs writes the same layout from the phone's call recordings (docs/phone.md).
 import fs from 'node:fs';
 import path from 'node:path';
-import { config, wisprCandidates, wisprDir } from './lib.mjs';
+import { config, phoneListenerPid, transcriptDir, wisprCandidates } from './lib.mjs';
 
 const cfg = config();
 const args = process.argv.slice(2);
@@ -30,7 +31,11 @@ const num = args.find((a, i) => /^\d+$/.test(a) && !['--after', '--min'].include
 const seconds = Number(num || (waitMode ? 120 : 300));
 const SETTLE_MS = cfg.settleSeconds * 1000;
 
-const root = wisprDir();
+const phone = cfg.source === 'phone';
+// On a phone, the same question as "is Wispr recording?": is the listener running (bin/phone.mjs)?
+const listening = phone && phoneListenerPid();
+const notListening = 'the phone listener (`node bin/phone.mjs`) isn\'t running: run `node bin/live.mjs on <skill>` or start it in Termux';
+const root = transcriptDir();
 if (!root) {
   console.log(`NO_WISPR: no Wispr Flow meetings folder found. Looked in:\n${wisprCandidates().join('\n')}\n` +
     'Set "wisprDir" in ~/.live-call-assistant/config.json if yours is elsewhere.');
@@ -68,7 +73,9 @@ const render = (list) => {
 
 const start = newest();
 if (!start) {
-  console.log('NO_TRANSCRIPT: Wispr has no meeting transcripts yet. Is it recording this call?');
+  console.log(phone
+    ? `NO_TRANSCRIPT: no phone calls transcribed yet. ${listening ? 'Is the phone recording calls?' : `And ${notListening}.`}`
+    : 'NO_TRANSCRIPT: Wispr has no meeting transcripts yet. Is it recording this call?');
   process.exit(2);
 }
 const inProgress = !fs.existsSync(path.join(path.dirname(start.f), 'refined.ndjson'));
@@ -76,7 +83,9 @@ const ageS = Math.round((Date.now() - start.mtime) / 1000);
 
 if (!waitMode) {
   console.log(`# call ${inProgress ? 'in progress' : 'FINISHED'}, last written ${ageS}s ago` +
-    (inProgress ? '' : ' (WARNING: the latest call has ended; is Wispr recording the current one?)'));
+    (inProgress ? '' : ` (WARNING: the latest call has ended; ${phone
+      ? (listening ? 'is the phone recording the current one?' : notListening)
+      : 'is Wispr recording the current one?'})`));
   const since = Date.now() - seconds * 1000;
   const all = entries(start.f);
   const recent = all.filter((o) => (o.endEpochMs || o.startEpochMs || 0) >= since);

@@ -40,4 +40,5 @@ Live mode can run several skills together, for example `node "<LCA>/bin/live.mjs
 ```
 
 - `You` is the user's microphone. `Them` is everyone else on the call (Wispr doesn't tell remote speakers apart). Both labels can be changed in the config.
+- On an Android phone ([phone.md](phone.md)), both sides are recorded together, so every line is labelled `Call`. Work out who's speaking from what's said: a question for the user usually comes from the other side. Lines arrive in pieces of several seconds, a little later than with Wispr.
 - If the user listens to Claude's replies through speakers, their microphone may pick them up as `You` lines. Ignore anything that reads like your own earlier answers, and suggest headphones.

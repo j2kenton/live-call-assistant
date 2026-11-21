@@ -16,6 +16,8 @@ It works with any kind of call, and each use is a short **skill** on top of the 
 
 Writing your own takes a few minutes: see [Make your own skill](#make-your-own-skill).
 
+**On an Android phone?** It can listen to your phone calls too, using the phone's own call recording and transcribing on the phone, without Wispr Flow: see [On an Android phone](docs/phone.md).
+
 ## Example: `/call-jokes` on a test call
 
 What was said on the call:
@@ -36,6 +38,8 @@ What `/call-jokes` suggested, unprompted, about 45 seconds later:
 
 Everything stays on your computer apart from what Claude Code itself sends to Claude.
 
+On an Android phone, the phone's call recording takes Wispr Flow's place, and whisper.cpp transcribes it on the phone as the call goes: see [docs/phone.md](docs/phone.md).
+
 ## Requirements
 
 - **[Claude Code](https://claude.com/claude-code)**, running on the same computer as the call: in a terminal, in VS Code, or in the Code tab of the Claude desktop app. (Claude on the web can't read files on your computer.)
@@ -43,6 +47,7 @@ Everything stays on your computer apart from what Claude Code itself sends to Cl
 - For `/call-research`: web search turned on in Claude Code (it's on by default for most accounts).
 - **[Node.js](https://nodejs.org/) 18 or later.**
 - **Windows** is tested. macOS should work but is untested: if your Wispr Flow meetings folder isn't found, set it in the [config](#configuration).
+- **Android phone calls**, instead of Wispr Flow: see [On an Android phone](docs/phone.md) for what it needs.
 
 ## Install
 
@@ -165,6 +170,7 @@ The example skills, [call-notes](skills/call-notes/SKILL.md), [call-research](sk
 | `node bin/new-skill.mjs <name>` | Start a new skill from the template. |
 | `node bin/transcript.mjs [seconds]` | Print the last N seconds of the transcript (default 300). |
 | `node bin/transcript.mjs --wait 120 --after N` | Wait for new speech after line N. See [docs/listening.md](docs/listening.md). |
+| `node bin/phone.mjs` | On an Android phone: transcribe calls as they're recorded. See [docs/phone.md](docs/phone.md). |
 
 ## Limitations
 

@@ -1,7 +1,7 @@
 {
   "name": "live-call-assistant",
   "version": "0.1.0",
-  "description": "Let Claude Code listen along to your calls and help in real time, using Wispr Flow's live transcript.",
+  "description": "Let Claude Code listen along to your calls and help in real time, using Wispr Flow's live transcript or an Android phone's call recordings.",
   "license": "MIT",
   "type": "module",
   "private": true,
@@ -11,6 +11,7 @@
   "scripts": {
     "install-claude": "node bin/install.mjs",
     "check": "node bin/live.mjs check",
+    "phone": "node bin/phone.mjs",
     "test": "node test/run.mjs"
   }
 }
