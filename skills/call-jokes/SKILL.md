@@ -14,7 +14,7 @@ The user is on a casual call (family, friends) and wants a funny line now and th
 1. Run `node "{{LCA}}/bin/live.mjs" on call-jokes`. If the user named other skills too, switch them all on in the order they gave, with call-jokes last: jokes only come when nothing else needs answering.
 2. Follow the listening loop in `{{LCA}}/docs/listening.md`, with two changes:
    - Wait with `--min 45` added (`node "{{LCA}}/bin/transcript.mjs" --wait 180 --after N --min 45`), so you look at the conversation roughly every 45 seconds instead of after every sentence.
-   - Keep listening until the user says "off" or three waits in a row return "nothing new". Don't stop just because nobody asked you anything: suggesting without being asked is the point.
+   - Keep listening until the user says "off" or the call ends. Don't stop just because nobody asked you anything: suggesting without being asked is the point.
 
 ## Suggesting
 

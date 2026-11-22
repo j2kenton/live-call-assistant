@@ -83,6 +83,19 @@ export function startPhoneListener() {
     : `Couldn't start the phone listener: see ${logFile}, or start it yourself in Termux with \`node ${q(script)}\`.`;
 }
 
+// bin/save-log.mjs logs each time Wispr writes the live transcript, to learn when it saves.
+export const SAVE_LOG = path.join(DATA_DIR, 'wispr-saves.log');
+export const SAVE_LOG_PID = path.join(DATA_DIR, 'save-log.pid');
+
+// Start the save logger in the background if it isn't running. It stops by itself when live mode goes off.
+export function startSaveLog() {
+  try {
+    process.kill(Number(fs.readFileSync(SAVE_LOG_PID, 'utf8')), 0);
+    return;                    // already running
+  } catch {}
+  spawn(process.execPath, [path.join(BIN, 'save-log.mjs')], { detached: true, stdio: 'ignore' }).unref();
+}
+
 // Set during a call (`node bin/phone.mjs language en`) to change the current call's language.
 export const PHONE_LANGUAGE_FILE = path.join(DATA_DIR, 'phone-language.json');
 // Each contact's language, learned from their calls (bin/phone.mjs).

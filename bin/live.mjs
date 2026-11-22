@@ -8,7 +8,7 @@
 //   node bin/live.mjs check        can the transcript be read right now?
 import { execFileSync } from 'node:child_process';
 import path from 'node:path';
-import { BIN, STATE_FILE, clearState, config, phoneListenerPid, readState, startPhoneListener, writeState } from './lib.mjs';
+import { BIN, STATE_FILE, clearState, config, phoneListenerPid, readState, startPhoneListener, startSaveLog, writeState } from './lib.mjs';
 
 const [cmd, ...rest] = process.argv.slice(2);
 
@@ -25,6 +25,8 @@ switch (cmd) {
     if (config().source === 'phone') {         // on a phone: make sure calls are being transcribed
       const started = startPhoneListener();
       if (started) console.log(started);
+    } else {
+      startSaveLog();                          // logs when Wispr writes the transcript (node bin/save-log.mjs show)
     }
     break;
   }

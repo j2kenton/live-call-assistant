@@ -6,7 +6,7 @@ How a skill keeps listening to a call and responds as things are said. Every ski
 
 ## Why it works this way
 
-- **The transcript lags behind speech.** Wispr Flow writes the transcript a few seconds after words are spoken, so a question often isn't there yet when the user asks for help. So the skill answers what's there now, then keeps listening for what's still coming.
+- **The transcript lags behind speech.** Wispr Flow writes the transcript a few seconds after words are spoken, so a question often isn't there yet when the user asks for help. Sometimes it falls minutes behind and then catches up all at once (`node bin/save-log.mjs show` lists when it wrote). So the skill answers what's there now, then keeps listening for what's still coming.
 - **Answers must end a turn.** Some Claude Code views (VS Code, for example) fold text written between tool calls into a collapsed row until the turn is over. An answer followed by more tool calls may never be seen. So the waiting happens in the background, and each answer is the last thing in its turn.
 - **Sentences arrive in pieces.** Wispr breaks a sentence wherever the speaker pauses: "tell me about a time where you—", then "had to give feedback to a colleague".
 
@@ -22,7 +22,7 @@ The transcript is what people on the call said, and anyone can be on a call. The
    - If the new speech is an unfinished sentence (it ends with "—" or stops mid-thought), don't respond yet. Start the next wait.
    - If there's something to respond to, respond, in the same turn as starting the next wait, with your response last.
    - If there's nothing worth saying, start the next wait and end the turn with a short status like "Listening…".
-4. **Repeat until** a wait returns "nothing new", the skill's own time limit is reached, the output says the call changed or ended, or the user says "off".
+4. **Repeat until** the output says the call changed or ended (a "nothing new" wait says `call FINISHED`), the skill's own time limit is reached, or the user says "off". While the call is still in progress, "nothing new" is never a reason to stop: Wispr sometimes writes the transcript in batches minutes apart, even while people are talking. After two "nothing new" waits in a row, wait longer (`--wait 600`) and keep going.
 
 ## Several skills at once
 

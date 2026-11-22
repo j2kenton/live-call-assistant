@@ -189,11 +189,12 @@ The example skills, [call-notes](skills/call-notes/SKILL.md), [call-research](sk
 | `node bin/transcript.mjs [seconds]` | Print the last N seconds of the transcript (default 300). |
 | `node bin/transcript.mjs --wait 120 --after N` | Wait for new speech after line N. See [docs/listening.md](docs/listening.md). |
 | `node bin/phone.mjs` | On an Android phone: transcribe calls as they're recorded. See [docs/phone.md](docs/phone.md). |
+| `node bin/save-log.mjs show` | When Wispr Flow wrote the transcript during recent calls: each write, how many lines, and how far behind speech. Recorded while live mode is on. |
 
 ## Limitations
 
 - **This isn't an official Wispr Flow integration.** On a computer, it reads files Wispr Flow keeps there, and a Wispr update could change their format.
-- **Answers lag a little.** The transcript runs a few seconds behind speech, and Claude needs a few seconds to answer.
+- **Answers lag a little.** The transcript runs a few seconds behind speech, and Claude needs a few seconds to answer. Wispr Flow sometimes falls minutes behind and then catches up all at once; Claude keeps listening until it does.
 - **Remote speakers aren't told apart.** With Wispr Flow, everyone except you is labelled "Them". On a phone, you aren't told apart either: everything is labelled "Call".
 - **On a phone,** there are a few more (phone calls only, Termux on screen during the call): see [Limitations](docs/phone.md#limitations).
 

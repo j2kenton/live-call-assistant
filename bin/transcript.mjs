@@ -124,7 +124,10 @@ const timer = setInterval(() => {
   if (now - t0 >= seconds * 1000) {
     if (fresh.length) report(`new speech (still going after ${seconds}s)`);
     clearInterval(timer);
-    console.log(`[nothing new in ${seconds}s]\n# cursor ${all.length}`);
+    // Say whether the call is still running: Wispr can go quiet for minutes during a long monologue,
+    // so "nothing new" alone is not a reason to stop listening.
+    const stillOn = !fs.existsSync(path.join(path.dirname(cur.f), 'refined.ndjson'));
+    console.log(`[nothing new in ${seconds}s; call ${stillOn ? 'still in progress' : 'FINISHED'}]\n# cursor ${all.length}`);
     process.exit(0);
   }
 }, 1000);
