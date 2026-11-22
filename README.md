@@ -38,8 +38,6 @@ What `/call-jokes` suggested, unprompted, about 45 seconds later:
 
 > 💬 "So now *I'm* the one crossing the road to get to the chicken. The chickens must be loving this."
 
-How it looked, with the call's live captions above and Claude Code below:
-
 ![The call's live captions about the chicken shops, then /call-jokes in Claude Code suggesting the line above](docs/images/call-jokes-example.png)
 
 ## How it works
