@@ -147,4 +147,6 @@ These go in `~/.live-call-assistant/config.json`, with the settings from the [RE
 
 ## Privacy and consent
 
-Recording calls is regulated: some places require everyone on the call to agree to it. Check the rules where you and the people you call are, and tell people their call is being recorded and transcribed. Recordings and transcripts stay on your phone; the transcript's text is sent to Claude only when you ask Claude Code for help.
+Recording calls is regulated: some places require everyone on the call to agree to it. Check the rules where you and the people you call are, and tell people their call is being recorded and transcribed. Recordings and transcripts stay on your phone; the transcript's text is sent to Claude only when you ask Claude Code for help. See also [Privacy, safety and consent](../README.md#privacy-safety-and-consent) and the [Disclaimer](../README.md#disclaimer).
+
+If you use Claude Code's Remote Control to reach the phone's Claude Code from another device, anyone who gets into your Claude account could reach the phone through it too: turn on two-step verification for that account.

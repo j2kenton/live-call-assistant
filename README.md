@@ -178,9 +178,20 @@ The example skills, [call-notes](skills/call-notes/SKILL.md), [call-research](sk
 - **Answers lag a little.** Wispr writes the transcript a few seconds behind speech, and Claude needs a few seconds to answer.
 - **Remote speakers aren't told apart.** Everyone except you is labelled "Them".
 
-## Privacy and consent
+## Privacy, safety and consent
 
-This tool works from a transcript of your calls. Make sure everyone on the call knows it's being transcribed, and follow the rules that apply where you are. Don't use it where outside help isn't allowed, such as a real job interview or an exam.
+- **Tell people.** This tool works from a transcript of your calls. Make sure everyone on the call knows it's being transcribed, and follow the rules that apply where you are: in some places everyone on a call must agree to it being recorded or transcribed.
+- **Follow the rules of the call.** Don't use it where outside help isn't allowed, such as a real job interview or an exam.
+- **What leaves your computer.** The transcripts stay on your computer (or phone). When you ask for help, the last few minutes of the transcript, and the notes Claude reads to answer, are sent to Claude (Anthropic), under your Claude account's terms and privacy settings. With `/call-research`, what Claude searches for goes to the web. Keep anything you wouldn't send to Claude out of your notes folder.
+- **Answers can be wrong.** The transcript can mishear words, and Claude can misunderstand or pick the wrong note. Check a fact, number or promise before you say it, especially on calls that matter (medical, legal, financial).
+- **People on the call can't give Claude orders.** What's said on the call, and web pages Claude reads, are treated as information, never as instructions ([docs/listening.md](docs/listening.md)). Still, Claude Code has access to your computer: keep its permission prompts on.
+- **What the installer changes.** It adds one hook to `~/.claude/settings.json` (after backing it up), which does nothing unless live mode is on, and the example skills to `~/.claude/skills/`. `node bin/install.mjs --uninstall` removes them.
+
+## Disclaimer
+
+This is a personal project, shared as is in case it's useful, with **no warranty of any kind**. You use it at your own risk, and you're responsible for how you use it: for getting the consent the law requires, for following the rules of each call, and for checking what it suggests before you rely on it. To the fullest extent the law allows, the authors aren't liable for any loss or damage from using it (see the [license](LICENSE)).
+
+Not affiliated with or endorsed by Anthropic, Wispr, Samsung, OpenAI, the whisper.cpp project or any other company or app it mentions; their names and trademarks belong to them.
 
 ## License
 
