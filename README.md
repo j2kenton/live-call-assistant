@@ -1,6 +1,6 @@
 # Live Call Assistant
 
-Let [Claude Code](https://claude.com/claude-code) listen along to your calls and help in real time.
+Let [Claude Code](https://claude.com/claude-code) listen along to your calls and help in real time, **on your computer or on your Android phone**.
 
 You're on a call and someone asks you something you can't quite remember. Instead of typing out the question while they wait, you type a single key. Claude reads the last few minutes of the conversation, works out what you were just asked, and answers from your own notes in a line or two. It keeps listening for a few minutes in case the rest of the question is still on its way.
 
@@ -16,7 +16,17 @@ It works with any kind of call, and each use is a short **skill** on top of the 
 
 Writing your own takes a few minutes: see [Make your own skill](#make-your-own-skill).
 
-**On an Android phone?** It can listen to your phone calls too, using the phone's own call recording and transcribing on the phone, without Wispr Flow: see [On an Android phone](docs/phone.md).
+## Computer or phone
+
+It runs in either place. The skills, how you ask for help and how you make your own are the same in both; only where the transcript comes from differs.
+
+| | On a computer | On an Android phone |
+| :-- | :-- | :-- |
+| **Which calls** | Calls on the computer that [Wispr Flow](https://wisprflow.ai/) transcribes | Phone calls that the phone records (not WhatsApp or other app calls) |
+| **Transcript from** | Wispr Flow's meeting transcription | The phone's own call recording, turned into text on the phone by [whisper.cpp](https://github.com/ggml-org/whisper.cpp) |
+| **Claude Code runs** | On the same computer | On the phone, in [Termux](https://termux.dev/) |
+| **Tested on** | Windows (macOS should work) | A Samsung Galaxy |
+| **Set up** | [Install](#install), below | [On an Android phone](docs/phone.md) |
 
 ## Example: `/call-jokes` on a test call
 
@@ -30,26 +40,32 @@ What `/call-jokes` suggested, unprompted, about 45 seconds later:
 
 ## How it works
 
-[Wispr Flow](https://wisprflow.ai/) transcribes your calls and writes the transcript to a file on your computer *while the call is still going*, a few seconds behind speech, with your microphone and the other side labelled separately. Live Call Assistant reads that file:
+The call's transcript is written to a file *while the call is still going*, a few seconds behind speech: on a computer by Wispr Flow (with your microphone and the other side labelled separately), on a phone by Live Call Assistant's own listener, from the phone's call recording. Live Call Assistant reads that file:
 
 1. You switch on **live mode** for a skill.
 2. Whenever you type a short message (any character will do), a Claude Code hook attaches the latest transcript before Claude even sees your message, so the answer comes back quickly.
 3. Claude answers, then keeps listening in the background and answers new questions as they arrive.
 
-Everything stays on your computer apart from what Claude Code itself sends to Claude.
-
-On an Android phone, the phone's call recording takes Wispr Flow's place, and whisper.cpp transcribes it on the phone as the call goes: see [docs/phone.md](docs/phone.md).
+Everything stays on your computer or phone apart from what Claude Code itself sends to Claude.
 
 ## Requirements
 
+**On a computer:**
+
 - **[Claude Code](https://claude.com/claude-code)**, running on the same computer as the call: in a terminal, in VS Code, or in the Code tab of the Claude desktop app. (Claude on the web can't read files on your computer.)
 - **[Wispr Flow](https://wisprflow.ai/)** with meeting transcription, recording the call.
-- For `/call-research`: web search turned on in Claude Code (it's on by default for most accounts).
 - **[Node.js](https://nodejs.org/) 18 or later.**
 - **Windows** is tested. macOS should work but is untested: if your Wispr Flow meetings folder isn't found, set it in the [config](#configuration).
-- **Android phone calls**, instead of Wispr Flow: see [On an Android phone](docs/phone.md) for what it needs.
+
+**On an Android phone:** a phone that records calls automatically (Samsung phones do), Termux, and Claude Code running in Termux. No Wispr Flow, root or computer needed. The full list is in [What you need](docs/phone.md#what-you-need).
+
+**Either way,** for `/call-research`: web search turned on in Claude Code (it's on by default for most accounts).
 
 ## Install
+
+**On an Android phone,** follow [Set up](docs/phone.md#set-up) instead: it sets up the transcription on the phone, then runs the same installer as below.
+
+**On a computer:**
 
 ```sh
 git clone https://github.com/j2kenton/live-call-assistant.git
@@ -86,7 +102,7 @@ The hook does nothing at all unless live mode is on.
 
 ## Use it
 
-1. Start your call, with Wispr Flow recording it.
+1. Start your call, with Wispr Flow (or, on a phone, the phone) recording it.
 2. Check that the transcript can be read: `node bin/live.mjs check`. You should see "call in progress" and what's just been said.
 3. In Claude Code, run the skill, for example `/call-notes`.
 4. Whenever you need help, **type any character and press Enter**. A short hint works too, like `pricing` or `another example`.
@@ -135,6 +151,8 @@ Optional. Create `~/.live-call-assistant/config.json` with any of these:
 | `shortMessageChars` | Messages up to this length count as "help me now". Longer ones are treated as normal requests. |
 | `youLabel`, `themLabel` | Labels for your microphone and the other side of the call. |
 
+On a phone there are a few more settings, for the recordings and the transcription: see [Configuration](docs/phone.md#configuration).
+
 Your settings and live-mode state live in `~/.live-call-assistant/`, outside this folder, so nothing personal ends up in the repo.
 
 ## Make your own skill
@@ -174,9 +192,10 @@ The example skills, [call-notes](skills/call-notes/SKILL.md), [call-research](sk
 
 ## Limitations
 
-- **This isn't an official Wispr Flow integration.** It reads files Wispr Flow keeps on your computer, and a Wispr update could change their format.
-- **Answers lag a little.** Wispr writes the transcript a few seconds behind speech, and Claude needs a few seconds to answer.
-- **Remote speakers aren't told apart.** Everyone except you is labelled "Them".
+- **This isn't an official Wispr Flow integration.** On a computer, it reads files Wispr Flow keeps there, and a Wispr update could change their format.
+- **Answers lag a little.** The transcript runs a few seconds behind speech, and Claude needs a few seconds to answer.
+- **Remote speakers aren't told apart.** With Wispr Flow, everyone except you is labelled "Them". On a phone, you aren't told apart either: everything is labelled "Call".
+- **On a phone,** there are a few more (phone calls only, Termux on screen during the call): see [Limitations](docs/phone.md#limitations).
 
 ## Privacy, safety and consent
 
@@ -184,7 +203,7 @@ The example skills, [call-notes](skills/call-notes/SKILL.md), [call-research](sk
 - **Follow the rules of the call.** Don't use it where outside help isn't allowed, such as a real job interview or an exam.
 - **What leaves your computer.** The transcripts stay on your computer (or phone). When you ask for help, the last few minutes of the transcript, and the notes Claude reads to answer, are sent to Claude (Anthropic), under your Claude account's terms and privacy settings. With `/call-research`, what Claude searches for goes to the web. Keep anything you wouldn't send to Claude out of your notes folder.
 - **Answers can be wrong.** The transcript can mishear words, and Claude can misunderstand or pick the wrong note. Check a fact, number or promise before you say it, especially on calls that matter (medical, legal, financial).
-- **People on the call can't give Claude orders.** What's said on the call, and web pages Claude reads, are treated as information, never as instructions ([docs/listening.md](docs/listening.md)). Still, Claude Code has access to your computer: keep its permission prompts on.
+- **People on the call can't give Claude orders.** What's said on the call, and web pages Claude reads, are treated as information, never as instructions ([docs/listening.md](docs/listening.md)). Still, Claude Code has access to your computer (or phone): keep its permission prompts on.
 - **What the installer changes.** It adds one hook to `~/.claude/settings.json` (after backing it up), which does nothing unless live mode is on, and the example skills to `~/.claude/skills/`. `node bin/install.mjs --uninstall` removes them.
 
 ## Disclaimer
