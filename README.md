@@ -38,6 +38,10 @@ What `/call-jokes` suggested, unprompted, about 45 seconds later:
 
 > 💬 "So now *I'm* the one crossing the road to get to the chicken. The chickens must be loving this."
 
+How it looked, with the call's live captions above and Claude Code below:
+
+![The call's live captions about the chicken shops, then /call-jokes in Claude Code suggesting the line above](docs/images/call-jokes-example.png)
+
 ## How it works
 
 The call's transcript is written to a file *while the call is still going*, a few seconds behind speech: on a computer by Wispr Flow (with your microphone and the other side labelled separately), on a phone by Live Call Assistant's own listener, from the phone's call recording. Live Call Assistant reads that file:
