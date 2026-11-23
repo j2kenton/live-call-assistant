@@ -131,6 +131,9 @@ await test('installer: adds the hook alongside existing ones, and uninstalls cle
   assert.equal(cmds.filter((c) => c.includes('hook.mjs')).length, 1);
   const skill = fs.readFileSync(path.join(env.CLAUDE_CONFIG_DIR, 'skills', 'call-notes', 'SKILL.md'), 'utf8');
   assert.doesNotMatch(skill, /\{\{/);
+  const coach = fs.readFileSync(path.join(env.CLAUDE_CONFIG_DIR, 'skills', 'call-coach', 'SKILL.md'), 'utf8');
+  assert.match(coach, /^name: call-coach$/m);
+  assert.doesNotMatch(coach, /\{\{/);
 
   run('install.mjs', ['--uninstall']);
   const after = JSON.parse(fs.readFileSync(settings, 'utf8'));

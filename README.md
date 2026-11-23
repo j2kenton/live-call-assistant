@@ -4,13 +4,14 @@ Let [Claude Code](https://claude.com/claude-code) listen along to your calls and
 
 You're on a call and someone asks you something you can't quite remember. Instead of typing out the question while they wait, you type a single key. Claude reads the last few minutes of the conversation, works out what you were just asked, and answers from your own notes in a line or two. It keeps listening for a few minutes in case the rest of the question is still on its way.
 
-It works with any kind of call, and each use is a short **skill** on top of the same listening engine. Three come included, each drawing on a different source:
+It works with any kind of call, and each use is a short **skill** on top of the same listening engine. Four come included:
 
 | Skill | Draws on | What it does |
 | :---- | :------- | :----------- |
 | `/call-notes` | Your own notes | Answers questions that come up on the call from a folder of your notes: meeting prep, sales notes, interview practice with your prepared stories. Never makes things up: if it isn't in your notes, it says so. |
 | `/call-research` | The web | Looks up things that come up and nobody has written down (a company someone mentions, a term you don't know, a claim to check) and answers in a line, with its source. |
 | `/call-jokes` | Its imagination | Listens to a casual call (family, friends) and now and then suggests a funny line you could say. |
+| `/call-coach` | Your coaching profile | For practice and mock interviews: nudges you on process (narrate, ask, decide, check the AI's work), gives hints if you want them, then debriefs you when the call ends. Modes: `light` (nudges only, the default), `full` (hints too) and `review` (silent until the debrief). Tell it about yourself in [a short profile](skills/call-coach/profile-example.md). Practice only: live help in a real interview usually breaks the rules. |
 
 **Mix and match:** run `/call-notes call-research` and it answers from your notes first, searching the web only when your notes don't cover something. See [Combine skills](#combine-skills).
 
@@ -177,7 +178,7 @@ Every skill does three things:
 2. **Listen:** follow the loop in [docs/listening.md](docs/listening.md). It explains how to answer, keep listening in the background, and cope with sentences that arrive in pieces. Your skill doesn't need to repeat any of it.
 3. **Respond:** this is the part that's yours. Say what to listen for in the conversation and how to answer.
 
-The example skills, [call-notes](skills/call-notes/SKILL.md), [call-research](skills/call-research/SKILL.md) and [call-jokes](skills/call-jokes/SKILL.md), are short, working skills to copy from. In the repo they contain `{{LCA}}` and `{{NOTES_DIR}}` placeholders, which the installer fills in. If you copy one by hand, replace `{{LCA}}` with the full path to this folder (forward slashes work on Windows too).
+The example skills, [call-notes](skills/call-notes/SKILL.md), [call-research](skills/call-research/SKILL.md), [call-jokes](skills/call-jokes/SKILL.md) and [call-coach](skills/call-coach/SKILL.md), are short, working skills to copy from. In the repo they contain `{{LCA}}` and `{{NOTES_DIR}}` placeholders, which the installer fills in. If you copy one by hand, replace `{{LCA}}` with the full path to this folder (forward slashes work on Windows too).
 
 ## Commands
 
