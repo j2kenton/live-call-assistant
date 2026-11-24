@@ -134,6 +134,15 @@ await test('installer: adds the hook alongside existing ones, and uninstalls cle
   const coach = fs.readFileSync(path.join(env.CLAUDE_CONFIG_DIR, 'skills', 'call-coach', 'SKILL.md'), 'utf8');
   assert.match(coach, /^name: call-coach$/m);
   assert.doesNotMatch(coach, /\{\{/);
+  const negotiate = fs.readFileSync(path.join(env.CLAUDE_CONFIG_DIR, 'skills', 'call-negotiate', 'SKILL.md'), 'utf8');
+  assert.match(negotiate, /^name: call-negotiate$/m);
+  assert.doesNotMatch(negotiate, /\{\{/);
+  // The files the skill points at exist in the repo.
+  for (const f of ['playbook.md', 'theory.md', 'prep-example.md', 'resources/README.md', 'resources/general-negotiation.md', 'resources/salary-and-offers.md', 'resources/tech-offers-interviewing-io.md', 'resources/fearless-salary-negotiation-doody.md',
+    'resources/patrick-mckenzie-salary-negotiation.md', 'resources/haseeb-qureshi-ten-rules.md', 'resources/malhotra-15-rules.md',
+    'resources/principled-negotiation.md', 'resources/difficult-conversations.md', 'resources/first-offers-research.md']) {
+    assert.ok(fs.existsSync(path.join(ROOT, 'skills', 'call-negotiate', f)), f);
+  }
 
   run('install.mjs', ['--uninstall']);
   const after = JSON.parse(fs.readFileSync(settings, 'utf8'));

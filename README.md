@@ -4,7 +4,7 @@ Let [Claude Code](https://claude.com/claude-code) listen along to your calls and
 
 You're on a call and someone asks you something you can't quite remember. Instead of typing out the question while they wait, you type a single key. Claude reads the last few minutes of the conversation, works out what you were just asked, and answers from your own notes in a line or two. It keeps listening for a few minutes in case the rest of the question is still on its way.
 
-It works with any kind of call, and each use is a short **skill** on top of the same listening engine. Four come included:
+It works with any kind of call, and each use is a short **skill** on top of the same listening engine. Five come included:
 
 | Skill | Draws on | What it does |
 | :---- | :------- | :----------- |
@@ -12,6 +12,7 @@ It works with any kind of call, and each use is a short **skill** on top of the 
 | `/call-research` | The web | Looks up things that come up and nobody has written down (a company someone mentions, a term you don't know, a claim to check) and answers in a line, with its source. |
 | `/call-jokes` | Its imagination | Listens to a casual call (family, friends) and now and then suggests a funny line you could say. |
 | `/call-coach` | Your coaching profile | For practice and mock interviews: nudges you on process (narrate, ask, decide, check the AI's work), gives hints if you want them, then debriefs you when the call ends. Modes: `light` (nudges only, the default), `full` (hints too) and `review` (silent until the debrief). Tell it about yourself in [a short profile](skills/call-coach/profile-example.md). Practice only: live help in a real interview usually breaks the rules. |
+| `/call-negotiate` | Chris Voss's methods, negotiation field guides and your own plan | For negotiations: a salary or job offer, a raise, a contract, a price, everyday disagreements. When the other side names a number, pushes back, sets a deadline or gets tense, it suggests one move, built on Chris Voss's tactical empathy (labels, mirrors, calibrated questions, accusation audits), then recaps what was agreed. Prepare with `/call-negotiate prep`, which helps you write [a one-page plan](skills/call-negotiate/prep-example.md), and rehearse with `/call-negotiate practice`, where Claude plays the other side and explains [the psychology behind each move](skills/call-negotiate/theory.md). The methods are in [the playbook](skills/call-negotiate/playbook.md) and [shared field guides](skills/call-negotiate/resources/); your own playbooks, kept privately in `~/.live-call-assistant/negotiate/`, take precedence. |
 
 **Mix and match:** run `/call-notes call-research` and it answers from your notes first, searching the web only when your notes don't cover something. See [Combine skills](#combine-skills).
 
@@ -178,7 +179,7 @@ Every skill does three things:
 2. **Listen:** follow the loop in [docs/listening.md](docs/listening.md). It explains how to answer, keep listening in the background, and cope with sentences that arrive in pieces. Your skill doesn't need to repeat any of it.
 3. **Respond:** this is the part that's yours. Say what to listen for in the conversation and how to answer.
 
-The example skills, [call-notes](skills/call-notes/SKILL.md), [call-research](skills/call-research/SKILL.md), [call-jokes](skills/call-jokes/SKILL.md) and [call-coach](skills/call-coach/SKILL.md), are short, working skills to copy from. In the repo they contain `{{LCA}}` and `{{NOTES_DIR}}` placeholders, which the installer fills in. If you copy one by hand, replace `{{LCA}}` with the full path to this folder (forward slashes work on Windows too).
+The example skills, [call-notes](skills/call-notes/SKILL.md), [call-research](skills/call-research/SKILL.md), [call-jokes](skills/call-jokes/SKILL.md), [call-coach](skills/call-coach/SKILL.md) and [call-negotiate](skills/call-negotiate/SKILL.md), are short, working skills to copy from. In the repo they contain `{{LCA}}` and `{{NOTES_DIR}}` placeholders, which the installer fills in. If you copy one by hand, replace `{{LCA}}` with the full path to this folder (forward slashes work on Windows too).
 
 ## Commands
 
@@ -214,7 +215,7 @@ The example skills, [call-notes](skills/call-notes/SKILL.md), [call-research](sk
 
 This is a personal project, shared as is in case it's useful, with **no warranty of any kind**. You use it at your own risk, and you're responsible for how you use it: for getting the consent the law requires, for following the rules of each call, and for checking what it suggests before you rely on it. To the fullest extent the law allows, the authors aren't liable for any loss or damage from using it (see the [license](LICENSE)).
 
-Not affiliated with or endorsed by Anthropic, Wispr, Samsung, OpenAI, the whisper.cpp project or any other company or app it mentions; their names and trademarks belong to them.
+Not affiliated with or endorsed by Anthropic, Wispr, Samsung, OpenAI, the whisper.cpp project, Chris Voss, the Black Swan Group or any other company, person or app it mentions; their names and trademarks belong to them.
 
 ## License
 
