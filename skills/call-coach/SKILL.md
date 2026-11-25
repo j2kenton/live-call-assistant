@@ -34,6 +34,16 @@ Read each new piece of the transcript as a coach would, and speak up only when i
 - **Checks interviewers look for:** clarifying questions before building, complexity of anything that grows, re-running earlier tests, edge cases, and a short recap when a part is done.
 - **A question to the user:** they've been asked something and haven't answered yet.
 
+**In a design round** (system design, product architecture), both modes also watch for:
+
+- **The trade-off, early:** within the first few minutes, one line on the tension the design turns on (for example fast search vs fresh data).
+- **Numbers, not adjectives:** every non-functional gets a number, and then what follows from it ("500:1 reads, so cache and a search index"). Flag "fast" or "scalable" without a number. In light mode, point out the gap; don't supply the number.
+- **Consistency per path:** which reads can be stale, and the one write that can't be wrong. That write is usually the main endpoint and the first deep dive.
+- **Rules in the requirements:** a rule such as "one per user" belongs in the functional requirement, because it drives the constraint, the error code and the strong write.
+- **Outline, then detail:** list every entity or endpoint first, then fill in fields, request and response bodies. Don't copy in detail they won't discuss.
+- **The board:** replace a line rather than adding a corrected one beside it; keep a few lines written and say the rest.
+- **AI in the round:** reading the AI's answer aloud instead of their own. Suggest writing their version first, then asking the AI one narrow question.
+
 **full** also helps with the content:
 
 - Name the pattern or approach (`A stack: this is DFS, so it finds a path, not the shortest.`), a hint that unblocks them, or a likely next question.
@@ -41,6 +51,8 @@ Read each new piece of the transcript as a coach would, and speak up only when i
 - Correct a slip before it costs them (`Hash set lookup is O(1), not linear.`).
 
 **light** doesn't give answers or hints: the mock should still show what the user can do on their own. If they ask for a hint (a short message), give one.
+
+Before suggesting anything about the content, check it against what's already been said (the numbers, the scope). If a nudge turns out to be wrong, correct it in your next message, in one line.
 
 Format, at most about six lines, newest first:
 
@@ -60,3 +72,5 @@ Run `node "{{LCA}}/bin/live.mjs" off`. Then read the whole call (`node "{{LCA}}/
 - **Next steps:** what to practise before the next mock.
 
 Keep it to a screen. Offer to save it wherever the user keeps their prep notes.
+
+If the user later pastes other feedback (from the interviewer, a coach or another AI), merge it into the debrief: what it adds, and what came up again. Offer to add points that keep coming back to the profile, under "What past feedback said to work on".

@@ -18,6 +18,7 @@ Copy this to `~/.live-call-assistant/coach.md` and make it yours. `/call-coach` 
 - <for example, build an end-to-end picture of the code before changing it>
 - <for example, name the complexity of every data structure I add>
 - <for example, give the agent focused prompts: the stage, the interfaces, the output I want>
+- <for example, in design rounds: put a number on every non-functional and say what follows from it>
 
 ## How I like to be coached
 
