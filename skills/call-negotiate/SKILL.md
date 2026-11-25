@@ -1,6 +1,6 @@
 ---
 name: call-negotiate
-description: During a live negotiation (a salary or job offer, a raise, a contract, a price, everyday disagreements), listen along and suggest what to say next using Chris Voss's tactical-empathy methods and practical negotiation playbooks (labels, mirrors, calibrated questions, accusation audits), then recap what was agreed. Also rehearses negotiations with Claude as the other side, and explains the psychology behind each move. Use when the user runs /call-negotiate (optionally with prep, practice or review), or types a short message while live mode is on for call-negotiate.
+description: During a live negotiation (a salary or job offer, a raise, a contract, a price, everyday disagreements), listen along and suggest one move to say next, then recap what was agreed. Draws on the user's own playbooks first, then practical negotiation guides (salary and tech offers, principled negotiation, the research on first offers) and Chris Voss's tactical empathy (labels, mirrors, calibrated questions, accusation audits). Also helps write a one-page plan, rehearses negotiations with Claude as the other side, and explains the psychology behind each move. Use when the user runs /call-negotiate (optionally with prep, practice or review), or types a short message while live mode is on for call-negotiate.
 ---
 
 # Call Negotiate
