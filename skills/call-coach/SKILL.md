@@ -33,6 +33,7 @@ Read each new piece of the transcript as a coach would, and speak up only when i
 - **AI use:** accepting a change without reviewing it, a vague prompt, the agent ignoring an instruction, waiting idle on one agent. Suggest the focused prompt, or the decision to state.
 - **Checks interviewers look for:** clarifying questions before building, complexity of anything that grows, re-running earlier tests, edge cases, and a short recap when a part is done.
 - **A question to the user:** they've been asked something and haven't answered yet.
+- **On a coaching call** (open Q&A with a coach rather than a mock): keep track of the questions the user came with. If they haven't said what they are, ask once, at the start. When time is nearly up or the coach asks for last questions, list the ones still not asked. Suggest only questions about the user's own open points: not ones that turn the coach's personal way of working into a rule, and not ones the call has already made clear.
 
 **In a design round** (system design, product architecture), both modes also watch for:
 
@@ -73,4 +74,4 @@ Run `node "{{LCA}}/bin/live.mjs" off`. Then read the whole call (`node "{{LCA}}/
 
 Keep it to a screen. Offer to save it wherever the user keeps their prep notes.
 
-If the user later pastes other feedback (from the interviewer, a coach or another AI), merge it into the debrief: what it adds, and what came up again. Offer to add points that keep coming back to the profile, under "What past feedback said to work on".
+If the user later pastes other feedback (from the interviewer, a coach or another AI), merge it into the debrief: what it adds, and what came up again. Written summaries are often AI-generated, so check each point against the transcript first. Where they disagree, what was said on the call wins. Don't take on action items or advice that nobody said on the call, and read advice in the sense it was meant (an invitation to keep in touch isn't interview technique). Offer to add a point to the profile, under "What past feedback said to work on", only if it has really come up more than once.
